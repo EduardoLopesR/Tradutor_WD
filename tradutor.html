@@ -12,11 +12,18 @@
 
         <textarea 
             id="texto" 
-            placeholder="Texto"
+            placeholder=">Texto"
             oninput="autoResize(this)"
         ></textarea>
 
         <br>
         <button onclick="traduzir()">Traduzir</button>
+        <br>
+        <textarea 
+            id="resultado" 
+            placeholder=">Traduzido"
+            readonly
+        ></textarea>
     </div>
+    <script src="tradutor.js"></script>
 </body>

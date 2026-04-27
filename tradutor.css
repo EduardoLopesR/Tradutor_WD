@@ -10,10 +10,10 @@ body{
     background-color: black;
 }
 h1{
-    margin-bottom: 200px;
-    justify-content:top;
+    margin-bottom: 100px;
+    justify-content:flex-start;
     font-family: JetBrains Mono;
-    color: white;
+    color: limegreen;
 }
 button{
     justify-content: center;
@@ -23,10 +23,12 @@ button{
     font-family: Cascadia Code;
     font-size: larger;
     color: limegreen; 
+    margin-bottom: 50px;
 }
 #conteudo{
     text-align: center;
     margin-bottom: 200px;
+    margin-top: 100px;
 }
 textarea, input{
     padding: 10px;
