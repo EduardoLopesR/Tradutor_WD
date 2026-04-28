@@ -14,19 +14,19 @@ function autoResize(el) {
 }
 // Local para armazenar o replace das letras
 const mapaWD = {
-  A: "✌", 
-  B: "○", // no lugar de 👌
-  C: "☑", // no lugar de 👍
-  D: "☒", // no lugar de 👎
+  A: "✌︎", 
+  B: "👌︎", 
+  C: "👍︎", 
+  D: "👎︎", 
   E: "☜",
   F: "☞",
-  G: "☝",
+  G: "☝︎",
   H: "☟",
-  I: "✋",
+  I: "✋︎",
   J: "☺",
-  K: "☐", // no lugar de 😐
+  K: "😐︎", 
   L: "☹",
-  M: "✹", // no lugar de 💣
+  M: "💣︎", 
   N: "☠",
   O: "⚐",
   P: "⚑",
