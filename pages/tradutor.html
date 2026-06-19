@@ -4,20 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tradutor Wing Dings</title>
-    <link rel="stylesheet" href="tradutor.css">
+    <link rel="stylesheet" href="/styles/tradutor.css">
+
 </head>
 <body>
+    <header id="cabecalho">
+        <h2>Tradutor escrito</h2>
+        <h2>Traduzir imagens</h2>
+    </header>
     <div id="conteudo">
-        <h1>Tradutor Wing Dings</h1>
-
         <textarea 
             id="texto" 
             placeholder=">Texto"
             oninput="autoResize(this)"
         ></textarea>
-
         <br>
-        <button onclick="traduzir()">Traduzir</button>
+        
         <br>
         <textarea 
             id="resultado" 
@@ -25,5 +27,11 @@
             readonly
         ></textarea>
     </div>
-    <script src="tradutor.js"></script>
+    <div class="container-iframes">
+        <iframe class="iframe-pagina" src="http://127.0.0.1:5500/pages/chatbot.html" frameborder="0"></iframe>
+    </div>
+    <footer>
+        <p>Feito por ????</p>
+    </footer>
+    <script src="/scripts/tradutor.js"></script>
 </body>

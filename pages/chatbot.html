@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Gemini</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 600px;
+            height: 300px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background-color: #e2e2e2;
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            Chatbot Gemini
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">Olá! Pergunte algo ao Gemini.</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+            <button id="send-btn">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = 'AQ.Ab8RN6JhEjx7RuVd8P1-Sqp8IfXptJjVQmMoVFFxTfKpqTRL7g'; 
+        
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        // Função para adicionar uma mensagem na tela
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(`${sender}-message`);
+            // Permite exibir quebras de linha para erros formatados
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>'); 
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Função para enviar a mensagem para a API do Gemini
+        async function sendMessage() {
+            const userText = userInput.value.trim();
+            if (userText === '') return;
+
+            addMessage(userText, 'user');
+            userInput.value = '';
+            
+            // Mensagem de carregamento
+            addMessage('Gemini está digitando...', 'bot');
+            const loadingMessage = chatMessages.lastChild; 
+
+            try {
+                // Modelo atualizado para gemini-2.5-flash
+                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+                
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: userText
+                            }]
+                        }]
+                    })
+                };
+
+                const response = await fetch(API_URL, options);
+                const result = await response.json();
+                
+                // 1. Remove a mensagem de carregamento
+                loadingMessage.remove();
+
+                // 2. VERIFICA SE O STATUS HTTP NÃO É OK (4XX ou 5XX)
+                if (!response.ok) {
+                    console.error('ERRO DE API (Status ' + response.status + '):', result);
+                    let errorMessage = `Erro ${response.status}: Falha na API.`;
+                    
+                    // Tenta extrair o erro específico do corpo da resposta
+                    if (result.error && result.error.message) {
+                        errorMessage += `\nDetalhe: ${result.error.message}`;
+                    }
+                    
+                    addMessage(errorMessage, 'bot');
+                    return; 
+                }
+
+                // 3. Verifica a estrutura de resposta (apenas se response.ok for true)
+                if (result.candidates && result.candidates[0] && result.candidates[0].content) {
+                    const botMessage = result.candidates[0].content.parts[0].text;
+                    addMessage(botMessage, 'bot');
+                } else {
+                    // Acontece se o status é 200, mas o conteúdo é incompleto (ex: bloqueio de segurança)
+                    console.warn('Resposta OK (200), mas conteúdo incompleto:', result);
+                    let incompleteMessage = 'Desculpe, a API respondeu, mas não consegui extrair o texto.';
+                    
+                    if (result.promptFeedback && result.promptFeedback.safetyRatings) {
+                        incompleteMessage += '\nMotivo: Bloqueado por política de segurança da API.';
+                    }
+                    addMessage(incompleteMessage, 'bot');
+                }
+
+            } catch (error) {
+                // 4. Captura erros de rede (ex: DNS, Timeouts)
+                loadingMessage.remove();
+                console.error('Erro ao chamar a API (Network ou Parse):', error);
+                addMessage('Ops! Ocorreu um erro de conexão. Verifique o console.', 'bot');
+            }
+        }
+
+        // Adiciona um evento para o botão de enviar
+        sendBtn.addEventListener('click', sendMessage);
+
+        // Adiciona um evento para a tecla 'Enter'
+        userInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
