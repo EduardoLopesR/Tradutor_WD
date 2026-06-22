@@ -112,7 +112,8 @@
     </div>
 
     <script>
-        const API_KEY = 'AQ.Ab8RN6JhEjx7RuVd8P1-Sqp8IfXptJjVQmMoVFFxTfKpqTRL7g'; 
+        require('dotenv').config(); // Carrega as variáveis de ambiente do .env
+        const API_KEY = process.env.API_KEY; 
         
         const chatMessages = document.getElementById('chat-messages');
         const userInput = document.getElementById('user-input');
