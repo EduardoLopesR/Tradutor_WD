@@ -6,6 +6,7 @@
     <title>Tradutor Wing Dings</title>
     <link rel="stylesheet" href="src/styles/tradutor.css">
     <link rel="icon" href="src/assets/icon.png" type="image/png">
+    <script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 <body>
     <header id="cabecalho">
@@ -22,17 +23,24 @@
         <br>
         
         <br>
-        <textarea 
+        <textarea
             id="resultado" 
             placeholder=">Traduzido"
             readonly
         ></textarea>
     </div>
+        <input type="file" id="imagem" accept="image/*">
     <div class="container-iframes">
         <iframe class="iframe-pagina" src="http://127.0.0.1:5500/src/pages/chatbot.html" frameborder="0"></iframe>
+    </div>
+    <div class="container-iframes">
+        <h2>Histórico</h2>
+        <div id="historico"></div>
     </div>
     <footer>
         <p>Feito por ????</p>
     </footer>
     <script src="src/scripts/tradutor.js"></script>
+    <script src="src/scripts/historico.js"></script>
+    <script src="src/scripts/imagens.js"></script>
 </body>

@@ -1,18 +1,18 @@
-// Local para armazenar o replace das letras
+// Local para armazenar a tradução das letras
 const mapaWD = {
-  A: "✌︎", 
-  B: "👌︎", 
-  C: "👍︎", 
-  D: "👎︎", 
+  A: "✌︎",
+  B: "👌︎",
+  C: "👍︎",
+  D: "👎︎",
   E: "☜",
   F: "☞",
   G: "☝︎",
   H: "☟",
   I: "✋︎",
   J: "☺",
-  K: "😐︎", 
+  K: "😐︎",
   L: "☹",
-  M: "💣︎", 
+  M: "💣︎",
   N: "☠",
   O: "⚐",
   P: "⚑",
@@ -28,7 +28,7 @@ const mapaWD = {
   Z: "☸",
   a: "🙦",
   b: "🙤",
-  c: "🙧",
+  c: "🙥",
   d: "🙧",
   e: "🙚",
   f: "🙘",
@@ -55,16 +55,11 @@ const mapaWD = {
 };
 
 function traduzir() {
-  const input = document.getElementById("texto").value;
+    const input = document.getElementById("texto").value;
+    const resultado = input
+        .split("")
+        .map(letra => mapaWD[letra] || letra)
+        .join("");
 
-  const resultado = input
-    .split("")
-    .map(letra => mapaWD[letra] || letra)
-    .join("");
-
-  document.getElementById("resultado").value = resultado;
+    document.getElementById("resultado").value = resultado;
 }
-document.getElementById("texto").addEventListener("input", function () {
-    traduzir();
-    autoResize(this);
-});
