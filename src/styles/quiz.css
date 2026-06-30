@@ -1,13 +1,17 @@
 h1 {
   text-align: center;
-  color: #333333;
+  color: rgb(34, 255, 0);
+  size: large;
+  font-family: "JetBrains Mono", monospace;
 }
 
-#question {
+#questoes {
   margin-bottom: 20px;
+  color: rgb(34, 255, 0);
+  
 }
 
-#options {
+#respostas {
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(2, 1fr);
@@ -17,13 +21,13 @@ button {
   display: block;
   margin: 0 auto;
   padding: 10px 20px;
-  background-color: rgb(227, 238, 10);
-  color: #131313;
-  border: none;
+  background-color: rgb(0, 0, 0);
+  color: rgb(34, 255, 0);
+  border: double 3px rgb(34, 255, 0);
   border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #8f8d8d;
+  background-color: #0a762333;
 }

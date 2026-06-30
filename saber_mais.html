@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tradutor Wing Dings</title>
     <link rel="stylesheet" href="src\styles\tradutor.css">
-    <link rel="icon" href="assets/icon.png" type="image/png">
+    <link rel="icon" href="src/assets/icon.png" type="image/png">
     <script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 <body>
@@ -15,9 +15,10 @@
         <h2 onclick="window.location.href='src\\pages\\saber_mais.html'">Quiz</h2>
     </header>
     <div id="conteudo">
-        
+
     </div>
     <div class="container-iframes">
+        <iframe class="iframe-pagina" src="src/pages/quiz.html" frameborder="0"></iframe>
         <iframe class="iframe-pagina" src="http://localhost:3000/src/pages/chatbot.html" frameborder="0"></iframe>
     </div>
     </div>
