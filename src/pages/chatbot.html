@@ -22,8 +22,9 @@
     </div>
 
     <script>
-        const API_KEY = 'API_KEY'
-        
+        require('dotenv').config(process.env.API_KEY);
+        let API_KEY = process.env.API_KEY;
+
         const chatMessages = document.getElementById('chat-messages');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
