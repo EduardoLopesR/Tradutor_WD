@@ -1,5 +1,6 @@
-/*OCR de imagens (não está funcionanado de forma correta, possue uma taxa de erro muito alta 
+/*OCR de imagens (não está funcionanado de forma correta para identificar wingdings, possue uma taxa de erro muito alta 
 porém ainda é possível ver o resultado no console)*/
+/*OCR funciona para imagens em ingles, n funciona para caracteres especiais de outras línguas como ç */
 window.addEventListener("load", async () => { 
   const imagemInput = document.getElementById("imagem"); 
   const resultadoTexto = document.getElementById("texto"); 

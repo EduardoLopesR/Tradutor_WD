@@ -22,9 +22,6 @@
     </div>
 
     <script>
-        // A API key NÃO fica mais aqui. O front-end chama o backend (server.js),
-        // que é quem de fato conversa com a API do Gemini usando a key guardada no .env.
-
         const chatMessages = document.getElementById('chat-messages');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
@@ -49,7 +46,7 @@
             userInput.value = '';
 
             // Mensagem de carregamento
-            addMessage('Gemini está digitando...', 'bot');
+            addMessage('Analisando a pergunta...', 'bot');
             const loadingMessage = chatMessages.lastChild;
 
             try {

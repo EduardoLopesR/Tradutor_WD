@@ -4,6 +4,7 @@ const path = require('path');
 
 // Aponta explicitamente para o .env na raiz do projeto,
 // já que server.js está em src/scripts/
+// iniciar servidor: node src/scripts/server.js
 require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
 
 const express = require('express');
