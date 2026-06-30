@@ -2,6 +2,7 @@ import { quizData } from "./perguntas_quiz.js";
   const questionElement = document.getElementById("questoes");
   const optionsElement = document.getElementById("respostas");
   const submitButton = document.getElementById("enviar");
+  const quizContainer = document.getElementById("quiz");
   
   let currentQuestion = 0;
   let score = 0;

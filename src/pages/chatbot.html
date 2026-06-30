@@ -22,8 +22,8 @@
     </div>
 
     <script>
-        require('dotenv').config(process.env.API_KEY);
-        let API_KEY = process.env.API_KEY;
+        // A API key NÃO fica mais aqui. O front-end chama o backend (server.js),
+        // que é quem de fato conversa com a API do Gemini usando a key guardada no .env.
 
         const chatMessages = document.getElementById('chat-messages');
         const userInput = document.getElementById('user-input');
@@ -35,78 +35,60 @@
             messageDiv.classList.add('message');
             messageDiv.classList.add(`${sender}-message`);
             // Permite exibir quebras de linha para erros formatados
-            messageDiv.innerHTML = text.replace(/\n/g, '<br>'); 
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Função para enviar a mensagem para a API do Gemini
+        // Função para enviar a mensagem para o backend, que repassa ao Gemini
         async function sendMessage() {
             const userText = userInput.value.trim();
             if (userText === '') return;
 
             addMessage(userText, 'user');
             userInput.value = '';
-            
+
             // Mensagem de carregamento
             addMessage('Gemini está digitando...', 'bot');
-            const loadingMessage = chatMessages.lastChild; 
+            const loadingMessage = chatMessages.lastChild;
 
             try {
-                // Modelo atualizado para gemini-2.5-flash
-                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
-                
-                const options = {
+                const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: userText
-                            }]
-                        }]
-                    })
-                };
+                    body: JSON.stringify({ message: userText })
+                });
 
-                const response = await fetch(API_URL, options);
                 const result = await response.json();
-                
+
                 // 1. Remove a mensagem de carregamento
                 loadingMessage.remove();
 
-                // 2. VERIFICA SE O STATUS HTTP NÃO É OK (4XX ou 5XX)
+                // 2. Verifica se o backend retornou erro
                 if (!response.ok) {
                     console.error('ERRO DE API (Status ' + response.status + '):', result);
                     let errorMessage = `Erro ${response.status}: Falha na API.`;
-                    
-                    // Tenta extrair o erro específico do corpo da resposta
-                    if (result.error && result.error.message) {
-                        errorMessage += `\nDetalhe: ${result.error.message}`;
+
+                    if (result.error) {
+                        errorMessage += `\nDetalhe: ${result.error}`;
                     }
-                    
+
                     addMessage(errorMessage, 'bot');
-                    return; 
+                    return;
                 }
 
-                // 3. Verifica a estrutura de resposta (apenas se response.ok for true)
-                if (result.candidates && result.candidates[0] && result.candidates[0].content) {
-                    const botMessage = result.candidates[0].content.parts[0].text;
-                    addMessage(botMessage, 'bot');
+                // 3. Exibe a resposta do bot
+                if (result.reply) {
+                    addMessage(result.reply, 'bot');
                 } else {
-                    // Acontece se o status é 200, mas o conteúdo é incompleto (ex: bloqueio de segurança)
-                    console.warn('Resposta OK (200), mas conteúdo incompleto:', result);
-                    let incompleteMessage = 'Desculpe, a API respondeu, mas não consegui extrair o texto.';
-                    
-                    if (result.promptFeedback && result.promptFeedback.safetyRatings) {
-                        incompleteMessage += '\nMotivo: Bloqueado por política de segurança da API.';
-                    }
-                    addMessage(incompleteMessage, 'bot');
+                    console.warn('Resposta OK (200), mas sem conteúdo:', result);
+                    addMessage('Desculpe, a API respondeu, mas não consegui extrair o texto.', 'bot');
                 }
 
             } catch (error) {
-                // 4. Captura erros de rede (ex: DNS, Timeouts)
+                // 4. Captura erros de rede (ex: backend offline, DNS, Timeouts)
                 loadingMessage.remove();
                 console.error('Erro ao chamar a API (Network ou Parse):', error);
                 addMessage('Ops! Ocorreu um erro de conexão. Verifique o console.', 'bot');
