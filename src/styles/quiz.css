@@ -4,7 +4,13 @@ h1 {
   size: large;
   font-family: "JetBrains Mono", monospace;
 }
-
+#quiz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  size: large;
+}
 #questoes {
   margin-bottom: 20px;
   color: rgb(34, 255, 0);
@@ -30,4 +36,10 @@ button {
 
 button:hover {
   background-color: #0a762333;
+}
+
+p {
+  text-align: center;
+  color: rgb(34, 255, 0);
+  font-family: "JetBrains Mono", monospace;
 }

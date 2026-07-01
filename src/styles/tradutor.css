@@ -92,13 +92,14 @@ p {
 input[type="file"] {
     padding: 10px;
     height: 10vh;
-    width: 30vh;
+    width: 40vh;
     margin-top: 20px;
     border: 3px double rgb(34, 255, 0);
     background-color: black;
     font-family: "Cascadia Code", monospace;
     font-size: large;
     color: limegreen;
+    
 }
 #historico{
 
