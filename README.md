@@ -11,6 +11,27 @@ Wingdings é uma fonte tipográfica criada pelos designers Kris Holmes e Charles
 
 [Descrição da Wikipedia](https://pt.wikipedia.org/wiki/Wingdings)
 
+## Objetivo do projeto
+O projeto teve como objetivo de além aprimorar as habilidades com as tecnologias front end, aprofundar os conhecimentos em modularização com import e export, manipulação do DOM e localstorage.
+
+## Como executar 
+Modo de execução para as funcionalidades que requerem um backend funcionando ( inteligência artificial funcionará apenas com a utilização própria de uma chave api) é possível usar o tradutor e o upload de imagens pelo link [Tradutor/Imagen](https://eduardolopesr.github.io/Tradutor_WD/tradutor.html)
+1. Clone o repositório
+
+git clone https://github.com/EduardoLopesR/Tradutor_WD.git
+
+2. Entre na pasta
+
+cd Tradutor_WD
+
+3. Instale as dependências
+
+npm install
+
+4. Execute o projeto
+
+node src/scripts/server.js
+
 ## Funcionalidades
 ### Tradutor
 Permite traduzir textos e palavras de caracteres alfabéticos tradicionais 
